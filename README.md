@@ -15,12 +15,12 @@ Example usage:
 3. Next a directory containing Jaspar formatted position weight matrices needs to be generated to use for mapping putative TF binding sites to the fasta file sequences.
 The file format for each PWM looks like the following:
 
-        | pos 1 | pos 2 | pos 3 | pos 4 | pos 5 | pos 6 | pos 7 | pos 8 | pos 9 | pos 10| pos 11|
-        |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-	|  287  |  234  |  123  |  57   |  0    |  87   |  0    |  17   |  10   |  131  |  500  |
-	|  496  |  485  |  1072 |  0    |  75   |  127  |  0    |  42   |  400  |  463  |  158  |
-	|  696  |  467  |  149  |  7    |  1872 |  70   |  1987 |   848 |  251  |  81   |  289  |
-	|  521  |  814  |  656  |  1936 |   53  |  1716 |   13  |   93  |  1339 |  1325 |  1053 |
+|       | pos 1 | pos 2 | pos 3 | pos 4 | pos 5 | pos 6 | pos 7 | pos 8 | pos 9 | pos 10| pos 11|
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| **A** |  287  |  234  |  123  |  57   |  0    |  87   |  0    |  17   |  10   |  131  |  500  |
+| **C** |  496  |  485  |  1072 |  0    |  75   |  127  |  0    |  42   |  400  |  463  |  158  |
+| **G** |  696  |  467  |  149  |  7    |  1872 |  70   |  1987 |   848 |  251  |  81   |  289  |
+| **T** |  521  |  814  |  656  |  1936 |   53  |  1716 |   13  |   93  |  1339 |  1325 |  1053 |
 
 The row order is A, C, G, T and each column represents a location within the binding site.
 3a. A single JASPAR file that contains all of the human based PWM files can be filtered by a python program called MatrixFileSeparator.py that generates individual PWM files for all of the PWMs contained within the master file. These are then stored within a single directory.
