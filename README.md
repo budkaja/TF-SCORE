@@ -54,10 +54,15 @@ chr5    145428864       145428875       ATCTGTGGGTT     p       8.377261
 chr2    223966690       223966701       CCCTGTGGTTC     m       7.986555
 	
 column 1: chromosome #
+
 column 2: start of the binding site
+
 column 3: end of the binding site
+
 column 4: called binding site sequence
+
 column 5: directionality of the binding site on DNA
+
 column 6: log likelihood score of the binding site (This column is optional and not necessary for later program usage, but it can be useful for identifying cutoff values for putative binding site calling)
 	
 Usage:
