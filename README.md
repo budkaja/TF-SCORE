@@ -48,7 +48,9 @@ python MatrixFileSeparator.py -f JASPARhumanPWM.txt
 5. A python program, PWMsearch.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
 
 chr10   15111077        15111088        GCCTGTGGGTA     p       7.799003
+
 chr5    145428864       145428875       ATCTGTGGGTT     p       8.377261
+
 chr2    223966690       223966701       CCCTGTGGTTC     m       7.986555
 	
 column 1: chromosome #
