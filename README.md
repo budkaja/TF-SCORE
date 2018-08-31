@@ -22,9 +22,10 @@ The file format for each PWM looks like the following:
 | **G** |  696  |  467  |  149  |  7    |  1872 |  70   |  1987 |   848 |  251  |  81   |  289  |
 | **T** |  521  |  814  |  656  |  1936 |   53  |  1716 |   13  |   93  |  1339 |  1325 |  1053 |
 
-The row order is A, C, G, T and each column represents a location within the binding site. **Note that the row headers (A, C, G, T) and position headers (pos 1, pos 2, etc) are not included in the PWM file, only the tab-delimited numbers should be used.** 
+The row order is A, C, G, T and each column represents a location within the binding site. **Note that the row headers (A, C, G, T) and position headers (pos 1, pos 2, etc) are not included in the PWM file, only the tab-delimited numbers should be used in the file.** 
 
 4. A single JASPAR file that contains all of the human based PWM files can be filtered by a python program called MatrixFileSeparator.py that generates individual PWM files for all of the PWMs contained within the master file. These are then stored within a single directory.
+
 Below is an example of how MatrixFileSeparator.py is used to convert the PWM file into separate PWM files:
 	python MatrixFileSeparator.py -f JASPARhumanPWM.txt
 5. A python program, KMERshort_LFSlong_9_2_15.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
