@@ -9,9 +9,14 @@ TF-SCORE is a command-line tool that can be used for the identification of over-
 This section functions as a step-by-step tutorial for how to run TF-SCORE to identify putative transcription factor enrichment. The program was created and validated using python 2.7 and has not been tested on other versions of python. To run TF-SCORE the user needs to provide several different files: a bed file of open DNA regions, PWM files if the user wants to use something besides the JASPAR non-redundant core vertebrate motifs, a gene list of interest, a background gene list, 
 1. A bed file is needed that contains the open regions for the cell type of interest
 2. The bed file then needs to be converted to a fasta file containing the DNA sequences. This can be completed using bedtools or the table browser function from the UCSC genome browser. The bedtools command is listed below:
-	bedtools getfasta -fi [input fasta file to pull sequences from] -bed [bed file of regions to get DNA for] -fo [name of output fasta file]
+
+	'''bedtools getfasta -fi [input fasta file to pull sequences from] -bed [bed file of regions to get DNA for] -fo [name of output fasta file]'''
+		
+	
 Example usage:
+
 	bedtools getfasta -fi genome.fa -bed PC3_DNase_hg19.bed -fo PC3_DNase_hg19.fasta
+	
 3. Next a directory containing Jaspar formatted position weight matrices needs to be generated to use for mapping putative TF binding sites to the fasta file sequences.
 The file format for each PWM looks like the following:
 
