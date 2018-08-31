@@ -91,8 +91,8 @@ Note: This file can be generated based on prior knowledge by the user or a progr
 Below is an outline for how Matalign can be utilized to produce the non-comparison PWM file. This section also provides an explanation of how the Matalign output is converted to a format that is usable by TF-SCORE.
 Matalign requires a directory full of individual PWM files with the format below. Note this is not the default format of JASPAR PWMs that are input into TF-SCORE. The TF-SCORE PWMS don't contain the A, C, G, T characters or the pipe characters.
 
-| | | |
-|-|-|-|
+| | | | | | | | | | | | |
+|-|-|-|-|-|-|-|-|-|-|-|-|
 |  \|A\|  |  366  |  0    |  0    |  361  |  109  |  1739  |  163  |  29   |  3620  |  3624  |
 |  \|C\|  |  731  |  52   |  6    |  3262 |  2009 |  0     |  0    |  7    |  0     |  5     |
 |  \|G\|  |  785  |  0    |  110  |  6    |  0    |  1637  |  3466 |  3426 |  9     |  0     |
