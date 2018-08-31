@@ -27,7 +27,9 @@ The row order is A, C, G, T and each column represents a location within the bin
 4. A single JASPAR file that contains all of the human based PWM files can be filtered by a python program called MatrixFileSeparator.py that generates individual PWM files for all of the PWMs contained within the master file. These are then stored within a single directory.
 
 Below is an example of how MatrixFileSeparator.py is used to convert the PWM file into separate PWM files:
+	
 	python MatrixFileSeparator.py -f JASPARhumanPWM.txt
+	
 5. A python program, KMERshort_LFSlong_9_2_15.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
 	chr10   15111077        15111088        GCCTGTGGGTA     p       7.799003
 	chr5    145428864       145428875       ATCTGTGGGTT     p       8.377261
