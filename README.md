@@ -10,9 +10,10 @@ This section functions as a step-by-step tutorial for how to run TF-SCORE to ide
 1. A bed file is needed that contains the open regions for the cell type of interest
 2. The bed file then needs to be converted to a fasta file containing the DNA sequences. This can be completed using bedtools or the table browser function from the UCSC genome browser. The bedtools command is listed below:
 
-	'''bedtools getfasta -fi [input fasta file to pull sequences from] -bed [bed file of regions to get DNA for] -fo [name of output fasta file]'''
-		
-	
+```
+	bedtools getfasta -fi [input fasta file to pull sequences from] -bed [bed file of regions to get DNA for] -fo [name of output fasta file]
+```
+
 Example usage:
 
 	bedtools getfasta -fi genome.fa -bed PC3_DNase_hg19.bed -fo PC3_DNase_hg19.fasta
