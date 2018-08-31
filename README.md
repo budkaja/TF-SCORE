@@ -1,17 +1,18 @@
 # TF-SCORE Overview
 
-TF-SCORE is a command-line tool that can be used for the identification of over-represented transcription factor binding patterns within a gene list of interest. This program utilizes open chromatin information to map potential transcription factor binding sites with the help of position weight matrices (PWMs). The use of open chromatin data decreases the false positive rate of PWMs and allows for cell-type specific identification of the cis-regulatory elements near the provided gene set.
+TF-SCORE is a command-line tool that can be used for the identification of over-represented transcription factor binding patterns within a gene list of interest. This program utilizes open chromatin information to map potential transcription factor binding sites with the help of position weight matrices (PWMs). The use of open chromatin data decreases the false positive rate of PWMs and allows for cell-type specific identification of the cis-regulatory elements near genes in the provided set.
 
 ![Overview](TFSCORE_overview.png)
 
-(A) Open chromatin information needs to be provided by the user in the form of a fasta file. This information can come from various types of next-generation sequencing data (ATAC-seq, DNase-seq, FAIRE-seq, etc). (B) Input PWMs from the JASPAR database are provided with the program, but additional PWMs can be provided as long as they fit the input format. (C) The Motif Occurrence Detection Suite (MOODS) uses the PWMs from (B) and the DNA sequences from (A) to produce putative TF binding sites that pass the user provided p-value threshold for stringency. (D) TF-SCORE provides a base background set of genes with their TSS information, but the user can provide their own gene and TSS information if they want to use a different background set. Then the mapped putative binding sites from (C) are assigned to genes based on the user provided upstream and downstream distances. (E) Once the putative TF binding sites are mapped to genes, the gene set of interest can be compared to the background set to search for single TF overrepresentation, gene co-occurrence, open region co-occurrence, and proximity co-occurrence of the provided TF PWMs.
+(A) Open chromatin information needs to be provided by the user in the form of a fasta file. This information can come from various types of next-generation sequencing data (ATAC-seq, DNase-seq, FAIRE-seq, etc). (B) Input PWMs from the JASPAR database are provided with the program, but additional PWMs can be provided as long as they fit the input format. (C) The Motif Occurrence Detection Suite (MOODS) uses the PWMs from (B) and the DNA sequences from (A) to produce putative TF binding sites that pass the user provided p-value threshold for stringency. (D) TF-SCORE provides a background set of genes with their TSS information, but the user can provide their own gene and TSS information if desired. Then the mapped putative binding sites from (C) are assigned to genes based on the user provided upstream and downstream distances. (E) Once the putative TF binding sites are mapped to genes, the gene set of interest can be compared to the background set to search for single TF overrepresentation, gene co-occurrence, open region co-occurrence, and proximity co-occurrence of the provided TF PWMs.
 
 # TF-SCORE Tutorial
 
-This section functions as a step-by-step tutorial for how to run TF-SCORE to identify putative transcription factor enrichment. The program was created and validated using python 2.7 and has not been tested on other versions of python. To run TF-SCORE the user needs to provide several different files: a bed file of open DNA regions, PWM files (the JASPAR non-redundant core vertebrate motifs are provided here), a gene list of interest, a background gene list, and 
+This section functions as a step-by-step tutorial for how to run TF-SCORE to identify putative transcription factor enrichment. This program was created and validated using python 2.7 and has not been tested on other versions of python. To run TF-SCORE the user needs to provide several different files: a bed or fasta file of open DNA regions, PWM files (the JASPAR non-redundant core vertebrate motifs are provided here), a gene list of interest, and a background gene list.  
 
-1. A bed file is needed that contains the open regions for the cell type of interest
-2. The bed file then needs to be converted to a fasta file containing the DNA sequences. This can be completed using bedtools or the table browser function from the UCSC genome browser. The bedtools command is listed below:
+1. A fasta file is needed that contains the open chromatin sequences for the cell type of interest, but a bed file can be provided if no fasta is available. Step 2. demonstrates how to convert a bed file to a fasta file. 
+
+2. A bed file can be converted to a fasta file with the help of bedtools or the table browser function from the UCSC genome browser. Below is an outline of how bedtools can be used to generate a fasta file from a bed file.
 
 ```
 bedtools getfasta -fi [input fasta file to pull sequences from] -bed [bed file of regions to get DNA for] -fo [name of output fasta file]
@@ -24,6 +25,7 @@ bedtools getfasta -fi genome.fa -bed PC3_DNase_hg19.bed -fo PC3_DNase_hg19.fasta
 ```
 
 3. Next a directory containing Jaspar formatted position weight matrices needs to be generated to use for mapping putative TF binding sites to the fasta file sequences.
+
 The file format for each PWM looks like the following:
 
 |       | pos 1 | pos 2 | pos 3 | pos 4 | pos 5 | pos 6 | pos 7 | pos 8 | pos 9 | pos 10| pos 11|
@@ -33,17 +35,17 @@ The file format for each PWM looks like the following:
 | **G** |  696  |  467  |  149  |  7    |  1872 |  70   |  1987 |   848 |  251  |  81   |  289  |
 | **T** |  521  |  814  |  656  |  1936 |   53  |  1716 |   13  |   93  |  1339 |  1325 |  1053 |
 
-The row order is A, C, G, T and each column represents a specific location within the binding site. **Note that the row headers (A, C, G, T) and position headers (pos 1, pos 2, etc) are not included in the PWM file, only tab-delimited numbers should be used in the file.** 
+The row order is A, C, G, T and each column represents a specific location within the TFs consensus binding site. **Note that the row headers (A, C, G, T) and position headers (pos 1, pos 2, etc) are not included in the PWM files, they are only used here for demonstration purposes. The file should only contain tab-delimited numbers.** 
 
-4. A single JASPAR file that contains all of the human based PWM files can be filtered by a python program called MatrixFileSeparator.py that generates individual PWM files for all of the PWMs contained within the master file. These are then stored within a single directory.
+4. A single JASPAR file that contains all of the human based PWM files (JASPARhumanPWM.txt) can be filtered by a python program called MatrixFileSeparator.py to generate individual files for all of the PWMs contained within the master file. Once all of the individual PWM files are created, they should be stored within a single directory.
 
-Below is an example of how MatrixFileSeparator.py is used to convert the PWM file into separate PWM files:
+Below is an example of how MatrixFileSeparator.py is used to convert the master JASPAR PWM file into separate PWM files:
 
 ```
 python MatrixFileSeparator.py -f JASPARhumanPWM.txt
 ```
 
-5. A python program, KMERshort_LFSlong_9_2_15.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
+5. A python program, PWMsearch.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
 	
 	chr10   15111077        15111088        GCCTGTGGGTA     p       7.799003
 	chr5    145428864       145428875       ATCTGTGGGTT     p       8.377261
