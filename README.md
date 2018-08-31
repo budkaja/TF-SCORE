@@ -61,7 +61,7 @@ python MatrixFileSeparator.py -f JASPARhumanPWM.txt
 Usage:
 
 ```
-python KMERshort_LFSlong_9_2_15.py [options]
+python PWMsearch.py [options]
 	-f 	Fasta file to search for binding sites
 	-p 	Position weight matrix directory path
 	-t 	p-value threshold to give MOODS for putative binding site determination
