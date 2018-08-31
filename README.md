@@ -31,36 +31,45 @@ Below is an example of how MatrixFileSeparator.py is used to convert the PWM fil
 	python MatrixFileSeparator.py -f JASPARhumanPWM.txt
 	
 5. A python program, KMERshort_LFSlong_9_2_15.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
+	
 	chr10   15111077        15111088        GCCTGTGGGTA     p       7.799003
 	chr5    145428864       145428875       ATCTGTGGGTT     p       8.377261
 	chr2    223966690       223966701       CCCTGTGGTTC     m       7.986555
+	
 	column 1: chromosome #
 	column 2: start of the binding site
 	column 3: end of the binding site
 	column 4: called binding site sequence
 	column 5: directionality of the binding site on DNA
 	column 6: log likelihood score of the binding site (This column is optional and not necessary for later program usage, but it can be useful for identifying cutoff values for putative binding site calling)
+	
 Usage:
-python KMERshort_LFSlong_9_2_15.py [options]
-	 -f 	Fasta file to search for binding sites
-	 -p 	Position weight matrix directory path
- -t 	p-value threshold to give MOODS for putative binding site determination
-	-o 	Path and name of the output file directory
+
+	python KMERshort_LFSlong_9_2_15.py [options]
+		-f 	Fasta file to search for binding sites
+		-p 	Position weight matrix directory path
+ 		-t 	p-value threshold to give MOODS for putative binding site determination
+		-o 	Path and name of the output file directory
+		
 6. A small python program, BackgroundGeneGenerator_final.py, is used to create a background file that contains information on how much open DNA is mapped to each gene given the upstream and downstream distances that are considered to house regulatory sequences. This file is used for the statistical analyses that occur later.
 	Note: This background file needs to be specific for the provided regulatory distance upstream and downstream of the TSSs that will be used for the later enrichment calculations.
+
 Usage:
+	
 	python BackgroundGeneGenerator_final.py [options]
--u 	Upstream distance from the TSS to consider for mapping an open region to a gene
--d	 Downstream distance from the TSS to consider for mapping an open region to a gene
--i 	Input bed file or fasta file that contains the information for the location of the open regions
--f 	Add this option if -i represents a fasta file (with headers in the format chr#: start-stop)
-	 -o 	Output file name
- -a 	Annotation file with TSS sites to consider for each gene or transcript of interest
+		-u 	Upstream distance from the TSS to consider for mapping an open region to a gene
+		-d	Downstream distance from the TSS to consider for mapping an open region to a gene
+		-i 	Input bed file or fasta file that contains the information for the location of the open regions
+		-f 	Add this option if -i represents a fasta file (with headers in the format chr#: start-stop)
+	 	-o 	Output file name
+ 		-a 	Annotation file with TSS sites to consider for each gene or transcript of interest
+
 Required format for the provided annotation (-a) file: 
-column 1	 gene/transcript ID
-column 2 	chromosome #
-column 3 	nucleotide number of TSS on chromosome
-column 4	 direction of transcript on DNA
+	column 1	 gene/transcript ID
+	column 2 	chromosome #
+	column 3 	nucleotide number of TSS on chromosome
+	column 4	 direction of transcript on DNA
+
 7. Generate a file that contains a list of all of the TFs that shouldn't be compared to each other in the pairwise comparison. This is needed to prevent TFs that bind very similar sequences on DNA from being compared against each other for co-occurrence enrichment.
 Note: This file can be generated based on prior knowledge by the user or a program such as Matalign can be used to determine which PWMs would produce significant overlap
 Below is an outline for how Matalign can be utilized to produce the non-comparison PWM file. This section also provides an explanation of how the Matalign output is converted to a format that is usable by TF-SCORE.
