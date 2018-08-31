@@ -87,9 +87,12 @@ Required format for the provided annotation (-a) file:
 	column 4	 direction of transcript on DNA
 
 7. Generate a file that contains a list of all of the TFs that shouldn't be compared to each other in the pairwise comparison. This is needed to prevent TFs that bind very similar sequences on DNA from being compared against each other for co-occurrence enrichment.
+
 Note: This file can be generated based on prior knowledge by the user or a program such as Matalign can be used to determine which PWMs would produce significant overlap
+
 Below is an outline for how Matalign can be utilized to produce the non-comparison PWM file. This section also provides an explanation of how the Matalign output is converted to a format that is usable by TF-SCORE.
-Matalign requires a directory full of individual PWM files with the format below. Note this is not the default format of JASPAR PWMs that are input into TF-SCORE. The TF-SCORE PWMS don't contain the A, C, G, T characters or the pipe characters.
+
+Matalign requires a directory full of individual PWM files with the format below. **Note this is not the default format of JASPAR PWMs that are input into TF-SCORE. The TF-SCORE PWMS don't contain the A, C, G, T characters or the pipe characters.**
 
 | | | | | | | | | | | | |
 |-|-|-|-|-|-|-|-|-|-|-|-|
@@ -98,7 +101,7 @@ Matalign requires a directory full of individual PWM files with the format below
 |  \|G\|  |  785  |  0    |  110  |  6    |  0    |  1637  |  3466 |  3426 |  9     |  0     |
 |  \|T\|  |  1747 |  3577 |  3513 |  0    |  1511 |  253   |  0    |  167  |   0    |  0     |
 
-A python program, MatrixFileSeparator_Matalign.py, can take the JASPAR formatted all human PWM file and create PWMs in the required Matalign format.
+A python program, MatrixFileSeparator_Matalign.py, can take the JASPAR formatted all human PWM file and create PWMs in the required format for use by Matalign.
 
 Usage:
 
@@ -106,7 +109,7 @@ Usage:
 python MatrixFileSeparator_Matalign.py -f JASPARhumanPWM.txt
 ```
 
-Note: It is recommended that this program is run in an empty directory so the individual PWM files can be output in their own directory.
+Note: It is recommended that this program is run in an empty directory so the individual PWM files can be output directly into this directory.
 
 Matalign notes: To run Matalign a list of all of the PWMs that will be pairwise compared against each other is needed. To obtain this list from a unix based terminal, the command below can be used in the directory with all of the PWM files (assuming they are .pfm files):
 
@@ -115,10 +118,15 @@ ls *.pfm > SampleList.txt
 ```
 
 The first line of the file needs to list the directory location that contains all of the sample files, so this can be added to the first line of SampleList.txt. Finally to run Matalign an alphabet file is required that lists the relative ratio of A:T and C:G nucleotides in the provided user sequences. For the validation tests on this program the alphabet file was A:T .27 and C:G .23. Once all of the preliminary files are created above, Matalign can be run on the PWM files to compare their binding similarity.
+
 Usage:
-	./matalign-v4a -f1 SampleList.txt -a alphabet -g > Matalign_similarity_output.txt
-This output contains every pairwise comparison of the provided PWMs with several statistical output values. These values can be used to decide which pairs of PWMs are too similar to be compared in TF-SCORE. 
-	To utilize the same cutoff criteria as was utilized throughout the trial runs of this program, a small program call Matalign_file_parser.py will take the matalign output file and convert it into the no comparison file format based on the following criteria:
+```
+./matalign-v4a -f1 SampleList.txt -a alphabet -g > Matalign_similarity_output.txt
+```
+
+The output contains every pairwise comparison of the provided PWMs with several statistical values for each comparison. These values can be used to decide which pairs of PWMs are too similar to be compared in TF-SCORE. 
+
+To utilize the same cutoff criteria as was utilized throughout the trial runs of this program, a small program call Matalign_file_parser.py will take the matalign output file and convert it into the no comparison file format based on the following criteria:
 	if Evalue < 0.15 and (overlap > 0.4*TFA_length or overlap > 0.4*TFB_length)
 	Note: The overlap value comes from column 6 and E-value comes from column 10 of the Matalign output
 The output format of the no comparison file is as follows:
