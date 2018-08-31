@@ -47,7 +47,7 @@ python MatrixFileSeparator.py -f JASPARhumanPWM.txt
 
 5. A python program, PWMsearch.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
 
-	chr10   15111077        15111088        GCCTGTGGGTA     p       7.799003
+	[tab] chr10   15111077        15111088        GCCTGTGGGTA     p       7.799003
 
 	chr5    145428864       145428875       ATCTGTGGGTT     p       8.377261
 
@@ -89,11 +89,15 @@ python BackgroundGeneGenerator_final.py [options]
  	-o 	Output file name
 	-a 	Annotation file with TSS sites to consider for each gene or transcript of interest
 ```
-Required format for the provided annotation (-a) file: 
-	column 1	 gene/transcript ID
-	column 2 	chromosome #
-	column 3 	nucleotide number of TSS on chromosome
-	column 4	 direction of transcript on DNA
+Required format for the provided annotation (-a) file:
+
+column 1	 gene/transcript ID
+
+column 2 	chromosome #
+
+column 3 	nucleotide number of TSS on chromosome
+
+column 4	 direction of transcript on DNA
 
 7. Generate a file that contains a list of all of the TFs that shouldn't be compared to each other in the pairwise comparison. This is needed to prevent TFs that bind very similar sequences on DNA from being compared against each other for co-occurrence enrichment.
 
@@ -135,25 +139,42 @@ Usage:
 
 The output contains every pairwise comparison of the provided PWMs with several statistical values for each comparison. These values can be used to decide which pairs of PWMs are too similar to be compared in TF-SCORE. 
 
-To utilize the same cutoff criteria as was utilized throughout the trial runs of this program, a small program call Matalign_file_parser.py will take the matalign output file and convert it into the no comparison file format based on the following criteria:
-	if Evalue < 0.15 and (overlap > 0.4*TFA_length or overlap > 0.4*TFB_length)
-	Note: The overlap value comes from column 6 and E-value comes from column 10 of the Matalign output
+To utilize the same cutoff criteria as was utilized throughout the trial runs of this program, a small program called Matalign_file_parser.py will take the matalign output file and convert it into the no comparison file format based on the following criteria:
+
+if Evalue < 0.15 and (overlap > 0.4*TFA_length or overlap > 0.4*TFB_length)
+	
+Note: The overlap value comes from column 6 and E-value comes from column 10 of the Matalign output
 The output format of the no comparison file is as follows:
-			MA0102.3_CEBPA.pfm      MA0046.1_HNF1A.pfm
-			MA0102.3_CEBPA.pfm      MA0466.1_CEBPB.pfm
-			MA0462.1_BATF::JUN.pfm  MA0099.2_JUN::FOS.pfm
+
+MA0102.3_CEBPA.pfm      MA0046.1_HNF1A.pfm
+			
+MA0102.3_CEBPA.pfm      MA0466.1_CEBPB.pfm
+			
+MA0462.1_BATF::JUN.pfm  MA0099.2_JUN::FOS.pfm
+			
 8. It is now possible to create a gene list and run it in through TF-SCORE to search for transcription factor overrepresentation and co-occurrence in the gene of interest list versus the background list.
 Required input files:
-	1. Gene of interest (GoI) list with each gene on its own line (same gene IDs as the TSS list)
-	2. Background Gene list (generated in step 5)
-	3. Directory with all of the TF binding site files
-	4. Matalign or non-comparison TF output file (used to remove comparisons of TFs that are expected to bind similar sites based on PWM)
-	5. TSS file used to create the Background Gene file
+
+1. Gene of interest (GoI) list with each gene on its own line (same gene IDs as the TSS list)
+	
+2. Background Gene list (generated in step 5)
+	
+3. Directory with all of the TF binding site files
+	
+4. Matalign or non-comparison TF output file (used to remove comparisons of TFs that are expected to bind similar sites based on PWM)
+	
+5. TSS file used to create the Background Gene file
+	
 Expected output files:
+
 	1. Single TF overrepresentation in GoI
+	
 	2. Gene Cooccurrence of TFs for the genes contained in the GoI set
+	
 	3. Region Cooccurrence of TFs within the open regions that mapped to genes within the GoI set
+	
 	4. Proximity Coccurrence of TFs based on a variety of variables (within 50 bp, few base pair overlap - 10 bp, 11 - 25 bp, and 26 - 50 bp)
+	
 	
 Usage:
 
