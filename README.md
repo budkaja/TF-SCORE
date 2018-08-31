@@ -147,13 +147,15 @@ Expected output files:
 	2. Gene Cooccurrence of TFs for the genes contained in the GoI set
 	3. Region Cooccurrence of TFs within the open regions that mapped to genes within the GoI set
 	4. Proximity Coccurrence of TFs based on a variety of variables (within 50 bp, few base pair overlap - 10 bp, 11 - 25 bp, and 26 - 50 bp)
+	
 Usage:
-	python TF-SCORE.py [options]
-Options
+
+```
+python TF-SCORE.py [options]
 	-i 	TSS file used in generation of background genes
 	-d 	Directory location for the binding sites from each PWM
--u 	Upstream distance from TSS to consider for mapping an open region to a gene
--do 	Downstream distance from TSS to consider for mapping an open region to a gene
+	-u 	Upstream distance from TSS to consider for mapping an open region to a gene
+	-do 	Downstream distance from TSS to consider for mapping an open region to a gene
 	-g 	Genes of interest file
 	-b 	Background Gene file (generated in step 5)
 	-s	 PWM non-comparison file (generated in step 6 from Matalign)
