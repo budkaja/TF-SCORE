@@ -23,10 +23,11 @@ The file format for each PWM looks like the following:
 | **T** |  521  |  814  |  656  |  1936 |   53  |  1716 |   13  |   93  |  1339 |  1325 |  1053 |
 
 The row order is A, C, G, T and each column represents a location within the binding site.
-3a. A single JASPAR file that contains all of the human based PWM files can be filtered by a python program called MatrixFileSeparator.py that generates individual PWM files for all of the PWMs contained within the master file. These are then stored within a single directory.
+
+4. A single JASPAR file that contains all of the human based PWM files can be filtered by a python program called MatrixFileSeparator.py that generates individual PWM files for all of the PWMs contained within the master file. These are then stored within a single directory.
 Below is an example of how MatrixFileSeparator.py is used to convert the PWM file into separate PWM files:
 	python MatrixFileSeparator.py -f JASPARhumanPWM.txt
-4. A python program, KMERshort_LFSlong_9_2_15.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
+5. A python program, KMERshort_LFSlong_9_2_15.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
 	chr10   15111077        15111088        GCCTGTGGGTA     p       7.799003
 	chr5    145428864       145428875       ATCTGTGGGTT     p       8.377261
 	chr2    223966690       223966701       CCCTGTGGTTC     m       7.986555
@@ -42,11 +43,11 @@ python KMERshort_LFSlong_9_2_15.py [options]
 	 -p 	Position weight matrix directory path
  -t 	p-value threshold to give MOODS for putative binding site determination
 	-o 	Path and name of the output file directory
-5. A small python program, BackgroundGeneGenerator_final.py, is used to create a background file that contains information on how much open DNA is mapped to each gene given the upstream and downstream distances that are considered to house regulatory sequences. This file is used for the statistical analyses that occur later.
+6. A small python program, BackgroundGeneGenerator_final.py, is used to create a background file that contains information on how much open DNA is mapped to each gene given the upstream and downstream distances that are considered to house regulatory sequences. This file is used for the statistical analyses that occur later.
 	Note: This background file needs to be specific for the provided regulatory distance upstream and downstream of the TSSs that will be used for the later enrichment calculations.
 Usage:
 	python BackgroundGeneGenerator_final.py [options]
- -u 	Upstream distance from the TSS to consider for mapping an open region to a gene
+-u 	Upstream distance from the TSS to consider for mapping an open region to a gene
 -d	 Downstream distance from the TSS to consider for mapping an open region to a gene
 -i 	Input bed file or fasta file that contains the information for the location of the open regions
 -f 	Add this option if -i represents a fasta file (with headers in the format chr#: start-stop)
@@ -57,7 +58,7 @@ column 1	 gene/transcript ID
 column 2 	chromosome #
 column 3 	nucleotide number of TSS on chromosome
 column 4	 direction of transcript on DNA
-6. Generate a file that contains a list of all of the TFs that shouldn't be compared to each other in the pairwise comparison. This is needed to prevent TFs that bind very similar sequences on DNA from being compared against each other for co-occurrence enrichment.
+7. Generate a file that contains a list of all of the TFs that shouldn't be compared to each other in the pairwise comparison. This is needed to prevent TFs that bind very similar sequences on DNA from being compared against each other for co-occurrence enrichment.
 Note: This file can be generated based on prior knowledge by the user or a program such as Matalign can be used to determine which PWMs would produce significant overlap
 Below is an outline for how Matalign can be utilized to produce the non-comparison PWM file. This section also provides an explanation of how the Matalign output is converted to a format that is usable by TF-SCORE.
 Matalign requires a directory full of individual PWM files with the format below. Note this is not the default format of JASPAR PWMs that are input into TF-SCORE. The TF-SCORE PWMS don't contain the A, C, G, T characters or the pipe characters.
@@ -82,7 +83,7 @@ The output format of the no comparison file is as follows:
 			MA0102.3_CEBPA.pfm      MA0046.1_HNF1A.pfm
 			MA0102.3_CEBPA.pfm      MA0466.1_CEBPB.pfm
 			MA0462.1_BATF::JUN.pfm  MA0099.2_JUN::FOS.pfm
-7. It is now possible to create a gene list and run it in through TF-SCORE to search for transcription factor overrepresentation and co-occurrence in the gene of interest list versus the background list.
+8. It is now possible to create a gene list and run it in through TF-SCORE to search for transcription factor overrepresentation and co-occurrence in the gene of interest list versus the background list.
 Required input files:
 	1. Gene of interest (GoI) list with each gene on its own line (same gene IDs as the TSS list)
 	2. Background Gene list (generated in step 5)
