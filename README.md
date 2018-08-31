@@ -93,10 +93,10 @@ Matalign requires a directory full of individual PWM files with the format below
 
 | | | |
 |-|-|-|
-|  |A|  |  366  |  0    |  0    |  361  |  109  |  1739  |  163  |  29   |  3620  |  3624  |
-|  |C|  |  731  |  52   |  6    |  3262 |  2009 |  0     |  0    |  7    |  0     |  5     |
-|  |G|  |  785  |  0    |  110  |  6    |  0    |  1637  |  3466 |  3426 |  9     |  0     |
-|  |T|  |  1747 |  3577 |  3513 |  0    |  1511 |  253   |  0    |  167  |   0    |  0     |
+|  \|A\|  |  366  |  0    |  0    |  361  |  109  |  1739  |  163  |  29   |  3620  |  3624  |
+|  \|C\|  |  731  |  52   |  6    |  3262 |  2009 |  0     |  0    |  7    |  0     |  5     |
+|  \|G\|  |  785  |  0    |  110  |  6    |  0    |  1637  |  3466 |  3426 |  9     |  0     |
+|  \|T\|  |  1747 |  3577 |  3513 |  0    |  1511 |  253   |  0    |  167  |   0    |  0     |
 
 A python program, MatrixFileSeparator_Matalign.py, can take the JASPAR formatted all human PWM file and create PWMs in the required Matalign format.
 
