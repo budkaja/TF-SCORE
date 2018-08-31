@@ -11,13 +11,15 @@ This section functions as a step-by-step tutorial for how to run TF-SCORE to ide
 2. The bed file then needs to be converted to a fasta file containing the DNA sequences. This can be completed using bedtools or the table browser function from the UCSC genome browser. The bedtools command is listed below:
 
 ```
-	bedtools getfasta -fi [input fasta file to pull sequences from] -bed [bed file of regions to get DNA for] -fo [name of output fasta file]
+bedtools getfasta -fi [input fasta file to pull sequences from] -bed [bed file of regions to get DNA for] -fo [name of output fasta file]
 ```
 
 Example usage:
 
-	bedtools getfasta -fi genome.fa -bed PC3_DNase_hg19.bed -fo PC3_DNase_hg19.fasta
-	
+```
+bedtools getfasta -fi genome.fa -bed PC3_DNase_hg19.bed -fo PC3_DNase_hg19.fasta
+```
+
 3. Next a directory containing Jaspar formatted position weight matrices needs to be generated to use for mapping putative TF binding sites to the fasta file sequences.
 The file format for each PWM looks like the following:
 
@@ -33,9 +35,11 @@ The row order is A, C, G, T and each column represents a location within the bin
 4. A single JASPAR file that contains all of the human based PWM files can be filtered by a python program called MatrixFileSeparator.py that generates individual PWM files for all of the PWMs contained within the master file. These are then stored within a single directory.
 
 Below is an example of how MatrixFileSeparator.py is used to convert the PWM file into separate PWM files:
-	
-	python MatrixFileSeparator.py -f JASPARhumanPWM.txt
-	
+
+```
+python MatrixFileSeparator.py -f JASPARhumanPWM.txt
+```
+
 5. A python program, KMERshort_LFSlong_9_2_15.py, based on the MOODS program is used to call binding sites for each PWM within the sequences of the provided fasta file. The output is reported in the following format:
 	
 	chr10   15111077        15111088        GCCTGTGGGTA     p       7.799003
@@ -51,25 +55,28 @@ Below is an example of how MatrixFileSeparator.py is used to convert the PWM fil
 	
 Usage:
 
-	python KMERshort_LFSlong_9_2_15.py [options]
-		-f 	Fasta file to search for binding sites
-		-p 	Position weight matrix directory path
- 		-t 	p-value threshold to give MOODS for putative binding site determination
-		-o 	Path and name of the output file directory
-		
+```
+python KMERshort_LFSlong_9_2_15.py [options]
+	-f 	Fasta file to search for binding sites
+	-p 	Position weight matrix directory path
+	-t 	p-value threshold to give MOODS for putative binding site determination
+	-o 	Path and name of the output file directory
+```
+
 6. A small python program, BackgroundGeneGenerator_final.py, is used to create a background file that contains information on how much open DNA is mapped to each gene given the upstream and downstream distances that are considered to house regulatory sequences. This file is used for the statistical analyses that occur later.
 	Note: This background file needs to be specific for the provided regulatory distance upstream and downstream of the TSSs that will be used for the later enrichment calculations.
 
 Usage:
-	
-	python BackgroundGeneGenerator_final.py [options]
-		-u 	Upstream distance from the TSS to consider for mapping an open region to a gene
-		-d	Downstream distance from the TSS to consider for mapping an open region to a gene
-		-i 	Input bed file or fasta file that contains the information for the location of the open regions
-		-f 	Add this option if -i represents a fasta file (with headers in the format chr#: start-stop)
-	 	-o 	Output file name
- 		-a 	Annotation file with TSS sites to consider for each gene or transcript of interest
 
+```
+python BackgroundGeneGenerator_final.py [options]
+	-u 	Upstream distance from the TSS to consider for mapping an open region to a gene
+	-d	Downstream distance from the TSS to consider for mapping an open region to a gene
+	-i 	Input bed file or fasta file that contains the information for the location of the open regions
+	-f 	Add this option if -i represents a fasta file (with headers in the format chr#: start-stop)
+ 	-o 	Output file name
+	-a 	Annotation file with TSS sites to consider for each gene or transcript of interest
+```
 Required format for the provided annotation (-a) file: 
 	column 1	 gene/transcript ID
 	column 2 	chromosome #
